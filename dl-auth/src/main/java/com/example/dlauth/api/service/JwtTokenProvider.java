@@ -1,18 +1,19 @@
 package com.example.dlauth.api.service;
 
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -79,8 +80,7 @@ public class JwtTokenProvider {
         final Claims claims = extractAllClaims(token);
 
         if (!claims.containsKey("role")) return false;
-        if (!claims.containsKey("nickname")) return false;
-        if (!claims.containsKey("password")) return false;
+        if (!claims.containsKey("name")) return false;
 
         final String username = extractSubject(token);
 
