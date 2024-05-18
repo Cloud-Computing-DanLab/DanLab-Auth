@@ -24,6 +24,8 @@ public enum ExceptionMessage {
 
     // OAuthException
     OAUTH_CONFIG_NULL("OAUTH 설정 정보를 찾을 수 없습니다."),
+    OAUTH_INVALID_ACCESS_TOKEN("access_token이 올바르지 않습니다."),
+    OAUTH_INVALID_TOKEN_URL("token URL이 올바르지 않습니다."),
 
     ;
     private final String text;
