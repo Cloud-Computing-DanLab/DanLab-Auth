@@ -34,7 +34,7 @@ public class JwtTokenProvider {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    private String buildToken(Map<String, String> extraClaims, UserDetails userDetails, long expiration) {
+    public String buildToken(Map<String, String> extraClaims, UserDetails userDetails, long expiration) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
