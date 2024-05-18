@@ -19,8 +19,6 @@ import java.util.List;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class IntegrationHelper extends AbstractTestExecutionListener {
-    public static final String AUTHORIZATION = "Authorization";
-    public static final String BEARER = "Bearer ";
     public static final String NON_ASCII = "NonAsciiCharacters";
 
     // 무작위로 선택한 포트를 주입
@@ -42,7 +40,7 @@ public class IntegrationHelper extends AbstractTestExecutionListener {
         List<String> truncateAllTablesQuery = jdbcTemplate.queryForList(
                 "SELECT CONCAT('TRUNCATE TABLE ', table_name, ';') AS q " +
                         "FROM information_schema.tables " +
-                        "WHERE table_schema = 'your_database_name'"
+                        "WHERE table_schema = 'danlab'"
                 , String.class);
 
         // 데이터베이스의 모든 테이블 초기화
