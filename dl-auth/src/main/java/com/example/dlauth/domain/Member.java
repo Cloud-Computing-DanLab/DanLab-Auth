@@ -3,6 +3,7 @@ package com.example.dlauth.domain;
 
 import com.example.dlauth.domain.constant.LabRole;
 import com.example.dlauth.domain.constant.MemberRole;
+import com.example.dlauth.domain.constant.PlatformType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -51,15 +52,25 @@ public class Member implements UserDetails {
     @ColumnDefault(value = "'LAB_NULL'")
     private LabRole labRole;
 
+    @Column(name = "PLATFORM_ID")
+    private String platformId;                                  // 플랫폼 아이디 (플랫폼 식별자)
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PLATFORM_TYPE")
+    @ColumnDefault(value = "'KAKAO'")
+    private PlatformType platformType;
+
     @Builder
-    public Member(Long labId, MemberProfile profile, String name, String studentCode, String department, MemberRole role, LabRole labRole) {
+    public Member(Long labId, MemberProfile memberProfile, String name, String studentCode, String department, MemberRole role, LabRole labRole, String platformId, PlatformType platformType) {
         this.labId = labId;
-        this.memberProfile = profile;
+        this.memberProfile = memberProfile;
         this.name = name;
         this.studentCode = studentCode;
         this.department = department;
         this.role = role;
         this.labRole = labRole;
+        this.platformId = platformId;
+        this.platformType = platformType;
     }
 
     // Spring Security UserDetails Area

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-public record RegisterRequest(
+public record SignupRequest(
         String labId,
         String intro,
         @NotBlank(message = "이름을 입력해주세요.")
