@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,18 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
+    private Key key;
+
+    // JWT 서명에 사용할 키 생성
+    @PostConstruct
+    protected void init() {
+        // Base64로 암호화(인코딩)되어 있는 secretKey를 바이트 배열로 복호화(디코딩)
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+
+        // JWT 서명을 위해 HMAC 알고리즘 적용
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
+
     /*
         Token 생성
     */
@@ -40,7 +53,7 @@ public class JwtTokenProvider {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -50,7 +63,7 @@ public class JwtTokenProvider {
     // 모든 Claim 추출
     public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSignInKey())
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -97,14 +110,5 @@ public class JwtTokenProvider {
         return extractExpiration(token).before(new Date());
     }
 
-
-    // JWT 서명에 사용할 키 획득
-    private Key getSignInKey() {
-        // Base64로 암호화(인코딩)되어 있는 secretKey를 바이트 배열로 복호화(디코딩)
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
-
-        // JWT 서명을 위해 HMAC 알고리즘 적용
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
 
 }
