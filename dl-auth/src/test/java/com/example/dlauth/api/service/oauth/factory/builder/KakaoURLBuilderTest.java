@@ -40,7 +40,6 @@ class KakaoURLBuilderTest extends IntegrationHelper {
                 + "&scope=openid");
     }
 
-
     @Test
     @DisplayName("token(Access Token 요청) URL을 성공적으로 생성한다.")
     void tokenURIBuildSuccess() {
