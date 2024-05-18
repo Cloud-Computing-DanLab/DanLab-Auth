@@ -22,6 +22,9 @@ public enum ExceptionMessage {
     JWT_NOT_FOUND("요청의 헤더에서 JWT 토큰을 읽어올 수 없습니다."),
 
 
+    // OAuthException
+    OAUTH_CONFIG_NULL("OAUTH 설정 정보를 찾을 수 없습니다."),
+
     ;
     private final String text;
 }

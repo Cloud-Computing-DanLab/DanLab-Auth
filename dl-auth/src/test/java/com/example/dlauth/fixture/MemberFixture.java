@@ -12,7 +12,7 @@ public class MemberFixture {
                 .name("이주성")
                 .department("컴퓨터공학과")
                 .role(MemberRole.MEMBER)
-                .profile(MemberProfile.builder()
+                .memberProfile(MemberProfile.builder()
                         .interests("자바 스프링 백엔드")
                         .intro("끈기의 사나이")
                         .projects("GITUDY 프로젝트 - 진행중\n " +
