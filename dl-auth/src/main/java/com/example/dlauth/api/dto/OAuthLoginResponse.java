@@ -5,6 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record OAuthLoginResponse (
+        String name,
         String platformId,
         PlatformType platformType
 ){

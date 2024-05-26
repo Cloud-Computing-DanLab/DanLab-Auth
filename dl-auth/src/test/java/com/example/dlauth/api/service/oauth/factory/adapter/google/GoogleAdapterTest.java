@@ -56,6 +56,7 @@ class GoogleAdapterTest extends IntegrationHelper {
 
         // then
         assertAll(
+                () -> assertThat(profile.name()).isEqualTo("이주성"),
                 () -> assertThat(profile.platformId()).isEqualTo("1"),
                 () -> assertThat(profile.platformType()).isEqualTo(GOOGLE)
         );

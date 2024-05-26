@@ -47,6 +47,7 @@ public class KakaoAdapter implements OAuthAdapter {
 
             // 액세스 토큰을 사용하여 프로필 정보 요청
             return OAuthLoginResponse.builder()
+                    .name(profile.getProperties().getNickname())
                     .platformId(profile.getId().toString())
                     .platformType(KAKAO)
                     .build();

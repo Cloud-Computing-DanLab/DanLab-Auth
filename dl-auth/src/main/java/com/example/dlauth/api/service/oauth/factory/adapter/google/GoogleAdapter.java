@@ -28,16 +28,18 @@ public class GoogleAdapter implements OAuthAdapter {
     @Override
     public String getToken(String tokenURL) {
         try {
-            GoogleTokenResponse token = googleTokenClients.getToken(URI.create(tokenURL));
             // URL로 액세스 토큰을 요청
+            GoogleTokenResponse token = googleTokenClients.getToken(URI.create(tokenURL));
 
             // 만약 token이 null일 경우 예외처리
             if (token.getAccess_token() == null) {
                 throw new OAuthException(ExceptionMessage.OAUTH_INVALID_TOKEN_URL);
             }
+
             return token.getAccess_token();
+
         } catch (RuntimeException e) {
-            log.error(">>>> [ Google Oauth 인증 에러 발생: {}", ExceptionMessage.OAUTH_INVALID_TOKEN_URL.getText());
+            log.error("[DL INFO] : Google Oauth 인증 에러 발생: {}", ExceptionMessage.OAUTH_INVALID_TOKEN_URL.getText());
             throw new OAuthException(ExceptionMessage.OAUTH_INVALID_TOKEN_URL);
         }
     }
@@ -50,10 +52,11 @@ public class GoogleAdapter implements OAuthAdapter {
             // 액세스 토큰을 사용하여 프로필 정보 요청
             return OAuthLoginResponse.builder()
                     .platformId(profile.getSub())
+                    .name(profile.getName())
                     .platformType(GOOGLE)
                     .build();
         } catch (RuntimeException e) {
-            log.error(">>>> [ Google Oauth 인증 에러 발생: {}", ExceptionMessage.OAUTH_INVALID_ACCESS_TOKEN.getText());
+            log.error("[DL INFO] : Google Oauth 인증 에러 발생: {}", ExceptionMessage.OAUTH_INVALID_ACCESS_TOKEN.getText());
             throw new OAuthException(ExceptionMessage.OAUTH_INVALID_ACCESS_TOKEN);
         }
     }

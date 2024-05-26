@@ -36,10 +36,10 @@ public class Member implements UserDetails {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(name = "STUDENT_CODE", nullable = false, unique = true)
+    @Column(name = "STUDENT_CODE")
     private String studentCode;
 
-    @Column(name = "DEPARTMENT", nullable = false)
+    @Column(name = "DEPARTMENT")
     private String department;
 
     @Enumerated(value = EnumType.STRING)
@@ -52,7 +52,7 @@ public class Member implements UserDetails {
     @ColumnDefault(value = "'LAB_NULL'")
     private LabRole labRole;
 
-    @Column(name = "PLATFORM_ID")
+    @Column(name = "PLATFORM_ID", nullable = false, unique = true)
     private String platformId;                                  // 플랫폼 아이디 (플랫폼 식별자)
 
     @Enumerated(EnumType.STRING)
