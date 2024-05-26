@@ -33,7 +33,7 @@ public class Member implements UserDetails {
     @Column(name = "PROFILE")
     private MemberProfile memberProfile;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME")
     private String name;
 
     @Column(name = "STUDENT_CODE")

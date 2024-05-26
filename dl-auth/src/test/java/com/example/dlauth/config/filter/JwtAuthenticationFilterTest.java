@@ -41,8 +41,8 @@ class SecurityConfigTest extends IntegrationHelper {
                         get(uri)
                                 .header("Authorization", "Bearer " + jwtToken)
                 )
-                .andExpect(status().isOk())
-                .andExpect(content().string(expectBody))
+                .andExpect(jsonPath("$.res_code").value(200))
+                .andExpect(jsonPath("$.res_obj").value("test!!"))
                 .andDo(print());
     }
 

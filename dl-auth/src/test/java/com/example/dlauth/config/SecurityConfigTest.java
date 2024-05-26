@@ -9,8 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 class SecurityConfigTest extends IntegrationHelper {
@@ -43,8 +42,8 @@ class SecurityConfigTest extends IntegrationHelper {
                         get(uri)
                 )
                 // then
-                .andExpect(status().isOk())
-                .andExpect(content().string(expectBody))
+                .andExpect(jsonPath("$.res_code").value(200))
+                .andExpect(jsonPath("$.res_obj").value("test!!"))
                 .andDo(print());
     }
 }

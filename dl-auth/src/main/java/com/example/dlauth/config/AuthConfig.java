@@ -5,6 +5,8 @@ import com.example.dlauth.common.exception.MemberException;
 import com.example.dlauth.domain.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -28,15 +30,6 @@ public class AuthConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    // JSON 직렬화/역직렬화 시 사용
-    @Bean
-    public ObjectMapper objectMapper() {
-
-        return new ObjectMapper()
-                // 객체의 속성 이름을 snake-case로 설정
-                .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     }
 
     @Bean

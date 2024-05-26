@@ -9,8 +9,6 @@ public class MemberFixture {
 
     public static Member 미인증_회원_생성() {
         return Member.builder()
-                .name("이주성")
-                .department("컴퓨터공학과")
                 .role(MemberRole.UNAUTH)
                 .platformId("123")
                 .build();
