@@ -2,7 +2,10 @@ package com.example.dlauth.api.service;
 
 import com.example.dlauth.api.dto.LoginResponse;
 import com.example.dlauth.api.dto.OAuthLoginResponse;
+import com.example.dlauth.api.dto.SignupRequest;
 import com.example.dlauth.api.service.oauth.OAuthLoginService;
+import com.example.dlauth.common.exception.ExceptionMessage;
+import com.example.dlauth.common.exception.MemberException;
 import com.example.dlauth.domain.Member;
 import com.example.dlauth.domain.constant.MemberRole;
 import com.example.dlauth.domain.constant.PlatformType;
@@ -24,11 +27,8 @@ public class AuthService {
     private static final String ROLE_CLAIM = "role";
     private static final String NAME_CLAIM = "name";
 
-    private final AuthenticationManager authenticationManager;
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
-
     private final OAuthLoginService oAuthLoginService;
 
     @Transactional
@@ -69,6 +69,34 @@ public class AuthService {
                 .accessToken(jwtToken)
                 .role(member.getRole())
                 .build();
+    }
+
+    @Transactional
+    public LoginResponse signup(Member member, SignupRequest request) {
+        Member findMember = memberRepository.findByPlatformId(member.getPlatformId()).orElseThrow(() -> {
+            // UNAUTH인 토큰을 받고 회원 탈퇴 후 그 토큰으로 회원가입 요청시 예외 처리
+            log.warn("[DL WARN] : Member Not Exist : {}", ExceptionMessage.MEMBER_NOT_FOUND.getText());
+            throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+        });
+
+        // UNAUTH 토큰으로 회원가입을 요청했지만 이미 update되어 UNAUTH가 아닌 사용자 예외 처리
+        if (findMember.getRole() != MemberRole.UNAUTH) {
+            log.warn("[DL WARN] : Not UNAUTH User : {}", ExceptionMessage.AUTH_DUPLICATE_UNAUTH_REGISTER.getText());
+            throw new MemberException(ExceptionMessage.AUTH_DUPLICATE_UNAUTH_REGISTER);
+        }
+
+        // 회원가입 정보 DB 반영
+        findMember.signUp(request.name(), request.studentCode(), request.department()
+                , request.labRole(), request.labId());
+
+        // JWT 토큰 재발급
+        String token = generateJwtToken(findMember);
+
+        return LoginResponse.builder()
+                .accessToken(token)
+                .role(findMember.getRole())
+                .build();
+
     }
 
     private String generateJwtToken(Member member) {

@@ -2,11 +2,17 @@ package com.example.dlauth.api.controller;
 
 import com.example.dlauth.api.dto.LoginPageResponse;
 import com.example.dlauth.api.dto.LoginResponse;
+import com.example.dlauth.api.dto.SignupRequest;
 import com.example.dlauth.api.service.AuthService;
 import com.example.dlauth.api.service.oauth.OAuthLoginService;
 import com.example.dlauth.common.response.JsonResult;
+import com.example.dlauth.domain.Member;
 import com.example.dlauth.domain.constant.PlatformType;
+import jakarta.security.auth.message.AuthException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +46,12 @@ public class AuthController {
         return JsonResult.successOf(loginResponse);
     }
 
-    // Todo : 회원가입
+    @PostMapping("/signup")
+    public JsonResult<?> register(@AuthenticationPrincipal Member member,
+                                  @Valid @RequestBody SignupRequest request) {
+
+        return JsonResult.successOf(authService.signup(member, request));
+    }
 
     // Todo : 회원 정보 조회
 

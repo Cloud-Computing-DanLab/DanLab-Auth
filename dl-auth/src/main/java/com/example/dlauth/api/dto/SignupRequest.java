@@ -6,8 +6,7 @@ import lombok.Builder;
 
 @Builder
 public record SignupRequest(
-        String labId,
-        String intro,
+        Long labId,
         @NotBlank(message = "이름을 입력해주세요.")
         String name,
         @NotBlank(message = "학번을 입력해주세요.")

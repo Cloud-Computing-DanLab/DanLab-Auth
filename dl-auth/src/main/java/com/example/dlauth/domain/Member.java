@@ -73,6 +73,17 @@ public class Member implements UserDetails {
         this.platformType = platformType;
     }
 
+    // 회원가입 (UNAUTH -> MEMBER)
+    public void signUp(String name, String studentCode, String department,
+                       LabRole labRole, Long labId) {
+        this.role = MemberRole.MEMBER;
+        this.name = name;
+        this.studentCode = studentCode;
+        this.department = department;
+        this.labRole = labRole;
+        this.labId = labId;
+    }
+
     // Spring Security UserDetails Area
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -108,4 +119,6 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

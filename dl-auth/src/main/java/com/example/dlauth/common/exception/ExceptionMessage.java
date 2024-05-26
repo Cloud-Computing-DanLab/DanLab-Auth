@@ -27,6 +27,9 @@ public enum ExceptionMessage {
     OAUTH_INVALID_ACCESS_TOKEN("access_token이 올바르지 않습니다."),
     OAUTH_INVALID_TOKEN_URL("token URL이 올바르지 않습니다."),
 
+    // AuthException
+    AUTH_DUPLICATE_UNAUTH_REGISTER("이미 가입이 완료된 회원입니다."),
+
     ;
     private final String text;
 }
