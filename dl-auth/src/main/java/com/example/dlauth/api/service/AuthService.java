@@ -37,6 +37,8 @@ public class AuthService {
         String name = loginResponse.name();
         String platformId = loginResponse.platformId();
 
+        System.out.println("platformId = " + platformId);
+
         log.info("[DL INFO]: {}님이 로그인하셨습니다.", name);
 
         /*

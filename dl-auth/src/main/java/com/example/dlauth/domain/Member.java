@@ -81,12 +81,12 @@ public class Member implements UserDetails {
 
     @Override
     public String getPassword() {
-        return studentCode;
+        return platformId;
     }
 
     @Override
     public String getUsername() {
-        return studentCode;
+        return platformId;
     }
 
     @Override

@@ -48,7 +48,7 @@ class JwtTokenProviderTest extends IntegrationHelper {
 
         // then
         assertSoftly(softly -> {
-            softly.assertThat(claims.getSubject()).isEqualTo(member.getStudentCode());
+            softly.assertThat(claims.getSubject()).isEqualTo(member.getPlatformId());
             softly.assertThat(claims.get("role")).isEqualTo(member.getRole().name());
             softly.assertThat(claims.get("name")).isEqualTo(member.getName());
             softly.assertThat(expiration).isAfter(new Date());

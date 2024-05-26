@@ -41,7 +41,7 @@ public class AuthConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return (username) -> memberRepository.findByStudentCode(username)
+        return (username) -> memberRepository.findByPlatformId(username)
                 .orElseThrow(() -> {
                     log.error("[DL ERROR]: {}", ExceptionMessage.MEMBER_ROLE_NOT_FOUND.getText());
                     throw new MemberException(ExceptionMessage.MEMBER_ROLE_NOT_FOUND);
