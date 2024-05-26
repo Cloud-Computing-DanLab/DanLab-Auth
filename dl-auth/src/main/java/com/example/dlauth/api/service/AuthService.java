@@ -75,7 +75,7 @@ public class AuthService {
         // JWT 토큰 생성을 위한 claims 생성
         HashMap<String, String> claims = new HashMap<>();
         claims.put(ROLE_CLAIM, member.getRole().name());
-        claims.put(NAME_CLAIM, member.getPlatformId());
+        claims.put(NAME_CLAIM, member.getName());
 
         // Access Token 생성
         final String jwtAccessToken = jwtTokenProvider.generateToken(claims, member);

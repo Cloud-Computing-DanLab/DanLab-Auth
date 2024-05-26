@@ -94,10 +94,11 @@ class AuthServiceTest extends IntegrationMockHelper {
         String code = "code";
         String state = "state";
         String platformId = "1";
+        String name = "이주성";
 
         OAuthLoginResponse oAuthResponse = OAuthLoginResponse.builder()
                 .platformType(GOOGLE)
-                .name("이주성")
+                .name(name)
                 .platformId(platformId)
                 .build();
 
@@ -112,7 +113,7 @@ class AuthServiceTest extends IntegrationMockHelper {
         // then
         assertAll(
                 () -> assertThat(claims.get("role")).isEqualTo(MemberRole.UNAUTH.name()),
-                () -> assertThat(claims.get("name")).isEqualTo(platformId)
+                () -> assertThat(claims.get("name")).isEqualTo(name)
         );
     }
 }

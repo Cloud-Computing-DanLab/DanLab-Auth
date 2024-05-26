@@ -1,6 +1,7 @@
 package com.example.dlauth.api.service.oauth;
 
 import com.example.dlauth.IntegrationHelper;
+import com.example.dlauth.IntegrationMockHelper;
 import com.example.dlauth.api.dto.LoginPageResponse;
 import com.example.dlauth.api.dto.OAuthLoginResponse;
 import com.example.dlauth.api.service.oauth.factory.adapter.google.GoogleAdapter;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class OAuthServiceTest extends IntegrationHelper {
+class OAuthServiceTest extends IntegrationMockHelper {
     @Autowired
     private OAuthLoginService oAuthService;
 
