@@ -13,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -28,6 +29,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequest ->
                         authorizeHttpRequest
+                                // register
+                                .requestMatchers("/auth/register").hasAnyAuthority("UNAUTH")
+                                // update
+                                .requestMatchers("/auth/update").hasAnyAuthority("USER", "ADMIN")
                                 // UnAuth Area
                                 .requestMatchers("/auth/**").permitAll()
                                 // Others
@@ -44,6 +49,7 @@ public class SecurityConfig {
                     logoutConfig
                             .logoutUrl("/auth/logout")
                             .addLogoutHandler(logoutService)
+                            .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "GET"))
                             .logoutSuccessHandler((request, response, authentication)
                                     -> SecurityContextHolder.clearContext()
                             );

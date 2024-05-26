@@ -19,6 +19,7 @@ public class MemberFixture {
                                 "BLUEROSE 프로젝트 - 진행중\n")
                         .build())
                 .studentCode("32183520")
+                .platformId("asdfqwer1234")
                 .build();
     }
 }
