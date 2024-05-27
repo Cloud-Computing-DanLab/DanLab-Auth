@@ -128,16 +128,6 @@ public class AuthService {
         return MemberInfoResponse.of(memberInfo);
     }
 
-    public MemberUpdatePageResponse memberUpdatePage(Long memberId) {
-        Member memberInfo = memberRepository.findById(memberId)
-                .orElseThrow(() -> {
-                    log.warn("[DL WARN] User not found with memberId: {}", memberId);
-                    throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
-                });
-
-        return MemberUpdatePageResponse.of(memberInfo);
-    }
-
     @Transactional
     public void updateMember(MemberInfoResponse member, MemberUpdateRequest request) {
         Member memberInfo = memberRepository.findById(member.memberId())

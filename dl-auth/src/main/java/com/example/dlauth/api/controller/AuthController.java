@@ -82,16 +82,6 @@ public class AuthController {
         return JsonResult.successOf(userInfoResponse);
     }
 
-    @GetMapping("/update")
-    public JsonResult<?> updateUser(@AuthenticationPrincipal Member member) {
-
-        // Jwt 토큰을 이용해 유저 정보 추출
-        MemberInfoResponse memberInfo = authService.getMyInfo(member.getPlatformId());
-
-        // 수정 페이지에 필요한 정보를 조회해 반환
-        return JsonResult.successOf(authService.memberUpdatePage(memberInfo.memberId()));
-    }
-
     @PostMapping("/update")
     public JsonResult<?> updateUser(@AuthenticationPrincipal Member member,
                                     @Valid @RequestBody MemberUpdateRequest request) {
