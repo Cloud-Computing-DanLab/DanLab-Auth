@@ -1,9 +1,6 @@
 package com.example.dlauth.api.controller;
 
-import com.example.dlauth.api.dto.LoginPageResponse;
-import com.example.dlauth.api.dto.LoginResponse;
-import com.example.dlauth.api.dto.MemberInfoResponse;
-import com.example.dlauth.api.dto.SignupRequest;
+import com.example.dlauth.api.dto.*;
 import com.example.dlauth.api.service.AuthService;
 import com.example.dlauth.api.service.oauth.OAuthLoginService;
 import com.example.dlauth.common.exception.ExceptionMessage;
@@ -14,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,7 +68,6 @@ public class AuthController {
         return JsonResult.successOf(userInfoResponse);
     }
 
-    // Todo : 회원 정보 수정 페이지
     @GetMapping("/update")
     public JsonResult<?> updateUser(@AuthenticationPrincipal Member member) {
 
@@ -81,9 +78,18 @@ public class AuthController {
         return JsonResult.successOf(authService.memberUpdatePage(memberInfo.memberId()));
     }
 
+    @PostMapping("/update")
+    public JsonResult<?> updateUser(@AuthenticationPrincipal Member member,
+                                    @Valid @RequestBody MemberUpdateRequest request) {
 
-    // Todo : 회원 정보 수정
+        // Jwt 토큰을 이용해 유저 정보 추출
+        MemberInfoResponse memberInfo = authService.getMemberInfo(member.getPlatformId());
 
+        // 회원 정보 수정
+        authService.updateMember(memberInfo, request);
+
+        return JsonResult.successOf("User Update Success.");
+    }
 
     // Todo : 학번 중복 검사
 

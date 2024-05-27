@@ -127,4 +127,15 @@ public class AuthService {
 
         return MemberUpdatePageResponse.of(memberInfo);
     }
+
+    @Transactional
+    public void updateMember(MemberInfoResponse member, MemberUpdateRequest request) {
+        Member memberInfo = memberRepository.findById(member.memberId())
+                .orElseThrow(() -> {
+                    log.warn("[DL WARN] User not found with memberId: {}", member.memberId());
+                    throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+                });
+
+        memberInfo.updateMember(request.name(), request.memberProfile());
+    }
 }

@@ -84,6 +84,12 @@ public class Member implements UserDetails {
         this.labId = labId;
     }
 
+    // 회원 정보 수정 메서드
+    public void updateMember(String name, MemberProfile profile) {
+        this.name = name;
+        this.memberProfile = profile;
+    }
+
     // Spring Security UserDetails Area
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
