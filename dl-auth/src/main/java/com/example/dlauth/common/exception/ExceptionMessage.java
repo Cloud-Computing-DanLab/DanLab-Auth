@@ -9,7 +9,7 @@ public enum ExceptionMessage {
     // MemberException
     MEMBER_ROLE_NOT_FOUND("회원의 권한 정보를 찾을 수 없습니다."),
     MEMBER_NOT_FOUND("회원 정보를 찾을 수 없습니다."),
-
+    MEMBER_STUDENT_CODE_DUPLICATION("이미 존재하는 학번 코드입니다."),
 
     // TokenException
     JWT_SUBJECT_IS_NULL("JWT 토큰의 식별자가 NULL입니다."),
@@ -30,6 +30,7 @@ public enum ExceptionMessage {
     // AuthException
     AUTH_DUPLICATE_UNAUTH_REGISTER("이미 가입이 완료된 회원입니다."),
     UNAUTHORIZED_AUTHORITY("회원가입이 되지 않은 회원입니다."),
+
 
     ;
     private final String text;

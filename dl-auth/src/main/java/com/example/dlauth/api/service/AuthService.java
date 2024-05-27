@@ -138,4 +138,11 @@ public class AuthService {
 
         memberInfo.updateMember(request.name(), request.memberProfile());
     }
+
+    public void stdCodeDuplicationCheck(MemberStudentCheckRequest request) {
+        if (memberRepository.existsByStudentCode(request.studentCode())) {
+            log.warn("[DL WARN] {} : {}", request.studentCode(), ExceptionMessage.MEMBER_STUDENT_CODE_DUPLICATION);
+            throw new MemberException(ExceptionMessage.MEMBER_STUDENT_CODE_DUPLICATION);
+        }
+    }
 }

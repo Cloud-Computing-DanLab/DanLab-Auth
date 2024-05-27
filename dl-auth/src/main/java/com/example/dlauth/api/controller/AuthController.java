@@ -91,7 +91,12 @@ public class AuthController {
         return JsonResult.successOf("User Update Success.");
     }
 
-    // Todo : 학번 중복 검사
+    @PostMapping("/checkCode")
+    public JsonResult<?> stdCodeDuplicationCheck(@Valid @RequestBody MemberStudentCheckRequest request) {
 
+        authService.stdCodeDuplicationCheck(request);
+
+        return JsonResult.successOf("studentCode Duplication Check Success.");
+    }
 
 }

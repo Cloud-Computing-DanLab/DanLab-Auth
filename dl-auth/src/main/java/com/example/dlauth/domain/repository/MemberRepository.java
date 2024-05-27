@@ -16,4 +16,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByPlatformIdAndPlatformType(String platformId, PlatformType platformType);
 
+    boolean existsByStudentCode(String studentCode);
+
 }
