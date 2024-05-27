@@ -2,22 +2,26 @@ package com.example.dlauth.api.controller;
 
 import com.example.dlauth.api.dto.LoginPageResponse;
 import com.example.dlauth.api.dto.LoginResponse;
+import com.example.dlauth.api.dto.MemberInfoResponse;
 import com.example.dlauth.api.dto.SignupRequest;
 import com.example.dlauth.api.service.AuthService;
 import com.example.dlauth.api.service.oauth.OAuthLoginService;
+import com.example.dlauth.common.exception.ExceptionMessage;
 import com.example.dlauth.common.response.JsonResult;
 import com.example.dlauth.domain.Member;
 import com.example.dlauth.domain.constant.PlatformType;
-import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.dlauth.domain.constant.MemberRole.UNAUTH;
+
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -53,12 +57,26 @@ public class AuthController {
         return JsonResult.successOf(authService.signup(member, request));
     }
 
-    // Todo : 회원 정보 조회
+    @GetMapping("/info")
+    public JsonResult<MemberInfoResponse> memberInfo(@AuthenticationPrincipal Member member) {
+
+        if (member.getRole() == UNAUTH) {
+            log.error(">>>> {} <<<<", ExceptionMessage.UNAUTHORIZED_AUTHORITY);
+            return JsonResult.failOf(ExceptionMessage.UNAUTHORIZED_AUTHORITY.getText());
+        }
+
+        MemberInfoResponse userInfoResponse = authService.getMemberInfo(member.getPlatformId());
+
+        return JsonResult.successOf(userInfoResponse);
+    }
 
     // Todo : 회원 정보 수정 페이지
 
+
     // Todo : 회원 정보 수정
 
+
     // Todo : 학번 중복 검사
+
 
 }

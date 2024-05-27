@@ -29,6 +29,7 @@ public enum ExceptionMessage {
 
     // AuthException
     AUTH_DUPLICATE_UNAUTH_REGISTER("이미 가입이 완료된 회원입니다."),
+    UNAUTHORIZED_AUTHORITY("회원가입이 되지 않은 회원입니다."),
 
     ;
     private final String text;

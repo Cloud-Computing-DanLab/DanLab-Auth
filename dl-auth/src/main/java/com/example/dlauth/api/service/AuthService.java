@@ -1,6 +1,7 @@
 package com.example.dlauth.api.service;
 
 import com.example.dlauth.api.dto.LoginResponse;
+import com.example.dlauth.api.dto.MemberInfoResponse;
 import com.example.dlauth.api.dto.OAuthLoginResponse;
 import com.example.dlauth.api.dto.SignupRequest;
 import com.example.dlauth.api.service.oauth.OAuthLoginService;
@@ -12,8 +13,6 @@ import com.example.dlauth.domain.constant.PlatformType;
 import com.example.dlauth.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,8 +106,18 @@ public class AuthService {
 
         // Access Token 생성
         final String jwtAccessToken = jwtTokenProvider.generateToken(claims, member);
-        log.info(">>>> [ 사용자 {}님의 JWT 토큰이 발급되었습니다 ] <<<<", member.getName());
+        log.info("[DL INFO] 사용자 {}님의 JWT 토큰이 발급되었습니다 ", member.getName());
 
         return jwtAccessToken;
+    }
+
+    public MemberInfoResponse getMemberInfo(String platformId) {
+        Member memberInfo = memberRepository.findByPlatformId(platformId)
+                .orElseThrow(() -> {
+                    log.warn("[DL WARN] User not found with platformId: {}", platformId);
+                    throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+                });
+
+        return MemberInfoResponse.of(memberInfo);
     }
 }
