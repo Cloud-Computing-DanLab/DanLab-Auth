@@ -1,9 +1,6 @@
 package com.example.dlauth.api.service;
 
-import com.example.dlauth.api.dto.LoginResponse;
-import com.example.dlauth.api.dto.MemberInfoResponse;
-import com.example.dlauth.api.dto.OAuthLoginResponse;
-import com.example.dlauth.api.dto.SignupRequest;
+import com.example.dlauth.api.dto.*;
 import com.example.dlauth.api.service.oauth.OAuthLoginService;
 import com.example.dlauth.common.exception.ExceptionMessage;
 import com.example.dlauth.common.exception.MemberException;
@@ -119,5 +116,15 @@ public class AuthService {
                 });
 
         return MemberInfoResponse.of(memberInfo);
+    }
+
+    public MemberUpdatePageResponse memberUpdatePage(Long memberId) {
+        Member memberInfo = memberRepository.findById(memberId)
+                .orElseThrow(() -> {
+                    log.warn("[DL WARN] User not found with memberId: {}", memberId);
+                    throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+                });
+
+        return MemberUpdatePageResponse.of(memberInfo);
     }
 }

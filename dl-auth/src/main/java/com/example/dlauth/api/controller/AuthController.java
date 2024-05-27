@@ -71,6 +71,15 @@ public class AuthController {
     }
 
     // Todo : 회원 정보 수정 페이지
+    @GetMapping("/update")
+    public JsonResult<?> updateUser(@AuthenticationPrincipal Member member) {
+
+        // Jwt 토큰을 이용해 유저 정보 추출
+        MemberInfoResponse memberInfo = authService.getMemberInfo(member.getPlatformId());
+
+        // 수정 페이지에 필요한 정보를 조회해 반환
+        return JsonResult.successOf(authService.memberUpdatePage(memberInfo.memberId()));
+    }
 
 
     // Todo : 회원 정보 수정
