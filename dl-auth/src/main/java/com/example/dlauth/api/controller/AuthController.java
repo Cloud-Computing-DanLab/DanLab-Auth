@@ -63,7 +63,21 @@ public class AuthController {
             return JsonResult.failOf(ExceptionMessage.UNAUTHORIZED_AUTHORITY.getText());
         }
 
-        MemberInfoResponse userInfoResponse = authService.getMemberInfo(member.getPlatformId());
+        MemberInfoResponse userInfoResponse = authService.getMyInfo(member.getPlatformId());
+
+        return JsonResult.successOf(userInfoResponse);
+    }
+
+    @GetMapping("/info/{memberId}")
+    public JsonResult<MemberInfoResponse> memberInfo(@AuthenticationPrincipal Member member,
+                                                     @PathVariable(name = "memberId") Long memberId) {
+
+        if (member.getRole() == UNAUTH) {
+            log.error(">>>> {} <<<<", ExceptionMessage.UNAUTHORIZED_AUTHORITY);
+            return JsonResult.failOf(ExceptionMessage.UNAUTHORIZED_AUTHORITY.getText());
+        }
+
+        MemberInfoResponse userInfoResponse = authService.getMemberInfo(memberId);
 
         return JsonResult.successOf(userInfoResponse);
     }
@@ -72,7 +86,7 @@ public class AuthController {
     public JsonResult<?> updateUser(@AuthenticationPrincipal Member member) {
 
         // Jwt 토큰을 이용해 유저 정보 추출
-        MemberInfoResponse memberInfo = authService.getMemberInfo(member.getPlatformId());
+        MemberInfoResponse memberInfo = authService.getMyInfo(member.getPlatformId());
 
         // 수정 페이지에 필요한 정보를 조회해 반환
         return JsonResult.successOf(authService.memberUpdatePage(memberInfo.memberId()));
@@ -83,7 +97,7 @@ public class AuthController {
                                     @Valid @RequestBody MemberUpdateRequest request) {
 
         // Jwt 토큰을 이용해 유저 정보 추출
-        MemberInfoResponse memberInfo = authService.getMemberInfo(member.getPlatformId());
+        MemberInfoResponse memberInfo = authService.getMyInfo(member.getPlatformId());
 
         // 회원 정보 수정
         authService.updateMember(memberInfo, request);

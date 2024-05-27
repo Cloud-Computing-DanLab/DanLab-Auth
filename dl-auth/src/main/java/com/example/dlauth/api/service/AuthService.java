@@ -108,10 +108,20 @@ public class AuthService {
         return jwtAccessToken;
     }
 
-    public MemberInfoResponse getMemberInfo(String platformId) {
+    public MemberInfoResponse getMyInfo(String platformId) {
         Member memberInfo = memberRepository.findByPlatformId(platformId)
                 .orElseThrow(() -> {
                     log.warn("[DL WARN] User not found with platformId: {}", platformId);
+                    throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+                });
+
+        return MemberInfoResponse.of(memberInfo);
+    }
+
+    public MemberInfoResponse getMemberInfo(Long memberId) {
+        Member memberInfo = memberRepository.findById(memberId)
+                .orElseThrow(() -> {
+                    log.warn("[DL WARN] User not found with memberId: {}", memberId);
                     throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
                 });
 
