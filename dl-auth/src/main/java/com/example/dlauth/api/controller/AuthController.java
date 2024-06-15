@@ -7,6 +7,10 @@ import com.example.dlauth.common.exception.ExceptionMessage;
 import com.example.dlauth.common.response.JsonResult;
 import com.example.dlauth.domain.Member;
 import com.example.dlauth.domain.constant.PlatformType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +31,8 @@ public class AuthController {
     private final AuthService authService;
     private final OAuthLoginService oAuthLoginService;
 
+    @Operation(summary = "로그인페이지 요청")
+    @ApiResponse(responseCode = "200", description = "로그인페이지 요청 성공", content = @Content(schema = @Schema(implementation = LoginPageResponse.class)))
     @GetMapping("/loginPage")
     public JsonResult<List<LoginPageResponse>> loginPage() {
         String loginState = UUID.randomUUID().toString();
@@ -37,6 +43,7 @@ public class AuthController {
         return JsonResult.successOf(loginPages);
     }
 
+    @ApiResponse(responseCode = "200", description = "로그인 요청 성공", content = @Content(schema = @Schema(implementation = LoginResponse.class)))
     @GetMapping("/{platformType}/login")
     public JsonResult<LoginResponse> login(
             @PathVariable("platformType") PlatformType platformType,
@@ -48,6 +55,7 @@ public class AuthController {
         return JsonResult.successOf(loginResponse);
     }
 
+    @ApiResponse(responseCode = "200", description = "회원가입 요청 성공", content = @Content(schema = @Schema(implementation = LoginResponse.class)))
     @PostMapping("/signup")
     public JsonResult<?> register(@AuthenticationPrincipal Member member,
                                   @Valid @RequestBody SignupRequest request) {
@@ -55,6 +63,7 @@ public class AuthController {
         return JsonResult.successOf(authService.signup(member, request));
     }
 
+    @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema = @Schema(implementation = MemberInfoResponse.class)))
     @GetMapping("/info")
     public JsonResult<MemberInfoResponse> memberInfo(@AuthenticationPrincipal Member member) {
 
@@ -68,6 +77,7 @@ public class AuthController {
         return JsonResult.successOf(userInfoResponse);
     }
 
+    @ApiResponse(responseCode = "200", description = "특정 회원 정보 요청 성공", content = @Content(schema = @Schema(implementation = MemberInfoResponse.class)))
     @GetMapping("/info/{memberId}")
     public JsonResult<MemberInfoResponse> memberInfo(@AuthenticationPrincipal Member member,
                                                      @PathVariable(name = "memberId") Long memberId) {
@@ -82,6 +92,7 @@ public class AuthController {
         return JsonResult.successOf(userInfoResponse);
     }
 
+    @ApiResponse(responseCode = "200", description = "회원 정보 수정 성공")
     @PostMapping("/update")
     public JsonResult<?> updateUser(@AuthenticationPrincipal Member member,
                                     @Valid @RequestBody MemberUpdateRequest request) {
@@ -95,6 +106,7 @@ public class AuthController {
         return JsonResult.successOf("User Update Success.");
     }
 
+    @ApiResponse(responseCode = "200", description = "학번 중복 체크 성공")
     @PostMapping("/checkCode")
     public JsonResult<?> stdCodeDuplicationCheck(@Valid @RequestBody MemberStudentCheckRequest request) {
 
