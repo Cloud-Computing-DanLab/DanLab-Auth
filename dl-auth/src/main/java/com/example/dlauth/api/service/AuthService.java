@@ -148,9 +148,9 @@ public class AuthService {
 
     @Transactional
     public MemberInfoResponse getMyInfoMy() {
-        Long memberId = 1L;
+        Long id = 1L;
 
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(id).get();
 
         return MemberInfoResponse.of(member);
     }

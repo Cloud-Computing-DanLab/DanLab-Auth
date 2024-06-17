@@ -2,6 +2,7 @@ package com.example.dlauth.api.service;
 
 import com.example.dlauth.IntegrationMockHelper;
 import com.example.dlauth.api.dto.LoginResponse;
+import com.example.dlauth.api.dto.MemberInfoResponse;
 import com.example.dlauth.api.dto.OAuthLoginResponse;
 import com.example.dlauth.api.dto.SignupRequest;
 import com.example.dlauth.api.service.oauth.OAuthLoginService;
@@ -161,5 +162,16 @@ class AuthServiceTest extends IntegrationMockHelper {
         assertThrows(MemberException.class, () -> {
             authService.signup(member, request);
         });
+    }
+
+    @Test
+    public void test() {
+        Member member = MemberFixture.비연구실_학생_생성();
+        memberRepository.save(member);
+
+        MemberInfoResponse myInfoMy = authService.getMyInfoMy();
+
+        System.out.println("myInfoMy.memberId() = " + myInfoMy.memberId());
+        System.out.println("myInfoMy.memberId() = " + myInfoMy.name());
     }
 }
