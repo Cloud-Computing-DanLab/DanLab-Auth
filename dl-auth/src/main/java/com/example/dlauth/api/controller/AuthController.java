@@ -78,7 +78,7 @@ public class AuthController {
         return JsonResult.successOf(userInfoResponse);
     }
 
-    @GetMapping("/info/my")
+    @GetMapping("/info-my")
     public JsonResult<MemberInfoResponse> memberInfoMy() {
 
 //        if (member.getRole() == UNAUTH) {
