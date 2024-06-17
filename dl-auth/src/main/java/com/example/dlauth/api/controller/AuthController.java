@@ -7,6 +7,7 @@ import com.example.dlauth.common.exception.ExceptionMessage;
 import com.example.dlauth.common.response.JsonResult;
 import com.example.dlauth.domain.Member;
 import com.example.dlauth.domain.constant.PlatformType;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -73,6 +74,19 @@ public class AuthController {
 //        }
 
         MemberInfoResponse userInfoResponse = authService.getMyInfo(member.getPlatformId());
+
+        return JsonResult.successOf(userInfoResponse);
+    }
+
+    @GetMapping("/info/my")
+    public JsonResult<MemberInfoResponse> memberInfoMy() {
+
+//        if (member.getRole() == UNAUTH) {
+//            log.error(">>>> {} <<<<", ExceptionMessage.UNAUTHORIZED_AUTHORITY);
+//            return JsonResult.failOf(ExceptionMessage.UNAUTHORIZED_AUTHORITY.getText());
+//        }
+
+        MemberInfoResponse userInfoResponse = authService.getMyInfoMy();
 
         return JsonResult.successOf(userInfoResponse);
     }

@@ -145,4 +145,13 @@ public class AuthService {
             throw new MemberException(ExceptionMessage.MEMBER_STUDENT_CODE_DUPLICATION);
         }
     }
+
+    @Transactional
+    public MemberInfoResponse getMyInfoMy() {
+        Long memberId = 1L;
+
+        Member member = memberRepository.findById(memberId).get();
+
+        return MemberInfoResponse.of(member);
+    }
 }
