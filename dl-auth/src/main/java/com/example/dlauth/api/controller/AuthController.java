@@ -58,22 +58,21 @@ public class AuthController {
 
     @ApiResponse(responseCode = "200", description = "회원가입 요청 성공", content = @Content(schema = @Schema(implementation = LoginResponse.class)))
     @PostMapping("/signup")
-    public JsonResult<?> register(@AuthenticationPrincipal Member member,
-                                  @Valid @RequestBody SignupRequest request) {
+    public JsonResult<?> register(@Valid @RequestBody SignupRequest request) {
 
-        return JsonResult.successOf(authService.signup(member, request));
+        return JsonResult.successOf(authService.signup(request));
     }
 
     @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema = @Schema(implementation = MemberInfoResponse.class)))
     @GetMapping("/info")
-    public JsonResult<MemberInfoResponse> memberInfo(@AuthenticationPrincipal Member member) {
+    public JsonResult<MemberInfoResponse> memberInfo(@RequestParam(name = "memberId") Long memberId) {
 
 //        if (member.getRole() == UNAUTH) {
 //            log.error(">>>> {} <<<<", ExceptionMessage.UNAUTHORIZED_AUTHORITY);
 //            return JsonResult.failOf(ExceptionMessage.UNAUTHORIZED_AUTHORITY.getText());
 //        }
 
-        MemberInfoResponse userInfoResponse = authService.getMyInfo(member.getPlatformId());
+        MemberInfoResponse userInfoResponse = authService.getMyInfo(memberId);
 
         return JsonResult.successOf(userInfoResponse);
     }
@@ -112,7 +111,7 @@ public class AuthController {
                                     @Valid @RequestBody MemberUpdateRequest request) {
 
         // Jwt 토큰을 이용해 유저 정보 추출
-        MemberInfoResponse memberInfo = authService.getMyInfo(member.getPlatformId());
+//        MemberInfoResponse memberInfo = authService.getMyInfo(member.getPlatformId());
 
         // 회원 정보 수정
 //        authService.updateMember(memberInfo, request);
