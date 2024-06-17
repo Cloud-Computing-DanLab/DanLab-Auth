@@ -101,7 +101,7 @@ public class AuthController {
         MemberInfoResponse memberInfo = authService.getMyInfo(member.getPlatformId());
 
         // 회원 정보 수정
-        authService.updateMember(memberInfo, request);
+//        authService.updateMember(memberInfo, request);
 
         return JsonResult.successOf("User Update Success.");
     }

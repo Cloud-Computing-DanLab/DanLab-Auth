@@ -128,16 +128,16 @@ public class AuthService {
         return MemberInfoResponse.of(memberInfo);
     }
 
-    @Transactional
-    public void updateMember(MemberInfoResponse member, MemberUpdateRequest request) {
-        Member memberInfo = memberRepository.findById(member.memberId())
-                .orElseThrow(() -> {
-                    log.warn("[DL WARN] User not found with memberId: {}", member.memberId());
-                    throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
-                });
-
-        memberInfo.updateMember(request.name(), request.memberProfile());
-    }
+//    @Transactional
+//    public void updateMember(MemberInfoResponse member, MemberUpdateRequest request) {
+//        Member memberInfo = memberRepository.findById(member.memberId())
+//                .orElseThrow(() -> {
+//                    log.warn("[DL WARN] User not found with memberId: {}", member.memberId());
+//                    throw new MemberException(ExceptionMessage.MEMBER_NOT_FOUND);
+//                });
+//
+//        memberInfo.updateMember(request.name(), request.memberProfile());
+//    }
 
     public void stdCodeDuplicationCheck(MemberStudentCheckRequest request) {
         if (memberRepository.existsByStudentCode(request.studentCode())) {

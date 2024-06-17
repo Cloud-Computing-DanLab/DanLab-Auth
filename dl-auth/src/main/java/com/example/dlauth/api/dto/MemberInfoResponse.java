@@ -1,7 +1,6 @@
 package com.example.dlauth.api.dto;
 
 import com.example.dlauth.domain.Member;
-import com.example.dlauth.domain.MemberProfile;
 import com.example.dlauth.domain.constant.LabRole;
 import com.example.dlauth.domain.constant.MemberRole;
 import lombok.Builder;
@@ -13,7 +12,9 @@ public record MemberInfoResponse(
         Long labId,
         LabRole labRole,
         String name,
-        MemberProfile memberProfile,
+        String intro,
+        String interests,
+        String projects,
         String studentCode,
         String department
 ) {
@@ -24,7 +25,9 @@ public record MemberInfoResponse(
                 member.getLabId(),
                 member.getLabRole(),
                 member.getName(),
-                member.getMemberProfile(),
+                member.getIntro(),
+                member.getInterests(),
+                member.getProjects(),
                 member.getStudentCode(),
                 member.getDepartment()
         );

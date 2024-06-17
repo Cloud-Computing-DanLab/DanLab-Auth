@@ -29,9 +29,14 @@ public class Member implements UserDetails {
     @Column(name = "LAB_ID")
     private Long labId;
 
-    @Embedded
-    @Column(name = "PROFILE")
-    private MemberProfile memberProfile;
+    @Column(name = "INTRO")
+    private String intro;
+
+    @Column(name = "INTERESTS")
+    private String interests;
+
+    @Column(name = "PROJECTS")
+    private String projects;
 
     @Column(name = "NAME")
     private String name;
@@ -61,9 +66,11 @@ public class Member implements UserDetails {
     private PlatformType platformType;
 
     @Builder
-    public Member(Long labId, MemberProfile memberProfile, String name, String studentCode, String department, MemberRole role, LabRole labRole, String platformId, PlatformType platformType) {
+    public Member(Long labId, String intro, String interests, String projects, String name, String studentCode, String department, MemberRole role, LabRole labRole, String platformId, PlatformType platformType) {
         this.labId = labId;
-        this.memberProfile = memberProfile;
+        this.intro = intro;
+        this.interests = interests;
+        this.projects = projects;
         this.name = name;
         this.studentCode = studentCode;
         this.department = department;
@@ -85,9 +92,11 @@ public class Member implements UserDetails {
     }
 
     // 회원 정보 수정 메서드
-    public void updateMember(String name, MemberProfile profile) {
+    public void updateMember(String name, String intro, String interests, String projects) {
         this.name = name;
-        this.memberProfile = profile;
+        this.intro = intro;
+        this.interests = interests;
+        this.projects = projects;
     }
 
     // Spring Security UserDetails Area
