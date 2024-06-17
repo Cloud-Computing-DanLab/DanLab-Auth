@@ -67,10 +67,10 @@ public class AuthController {
     @GetMapping("/info")
     public JsonResult<MemberInfoResponse> memberInfo(@AuthenticationPrincipal Member member) {
 
-        if (member.getRole() == UNAUTH) {
-            log.error(">>>> {} <<<<", ExceptionMessage.UNAUTHORIZED_AUTHORITY);
-            return JsonResult.failOf(ExceptionMessage.UNAUTHORIZED_AUTHORITY.getText());
-        }
+//        if (member.getRole() == UNAUTH) {
+//            log.error(">>>> {} <<<<", ExceptionMessage.UNAUTHORIZED_AUTHORITY);
+//            return JsonResult.failOf(ExceptionMessage.UNAUTHORIZED_AUTHORITY.getText());
+//        }
 
         MemberInfoResponse userInfoResponse = authService.getMyInfo(member.getPlatformId());
 
